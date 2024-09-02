@@ -1,6 +1,6 @@
-@RobotManagerAPI_HostAddress = http://localhost:5247
+@RobotManagerAPI_HostAddress = http://skakominor.de:5000
 
-GET {{RobotManagerAPI_HostAddress}}/weatherforecast/
+GET {{RobotManagerAPI_HostAddress}}/robotManager/
 Accept: application/json
 
 ###
