@@ -3,10 +3,10 @@
     public class Nao
     {
         int id;
-        private string name;
-        private string headID;
-        private string bodyID;
-        private int warantyExtension;
+        private string name = string.Empty;
+        private string headID = string.Empty;
+        private string bodyID = string.Empty;
+        private int warrantyExtension;
         private DateTime purchased;
         private List<Issue> issues = new();
         private List<Note> notes = new();
@@ -17,7 +17,7 @@
         public string Name { get => name; set => name = value; }
         public string HeadID { get => headID; set => headID = value; }
         public string BodyID { get => bodyID; set => bodyID = value; }
-        public int WarantyExtension { get => warantyExtension; set => warantyExtension = value; }
+        public int WarrantyExtension { get => warrantyExtension; set => warrantyExtension = value; }
         public DateTime Purchased { get => purchased; set => purchased = value; }
 
         public List<Issue> Issues { get => issues; set => issues = value; }
@@ -28,65 +28,39 @@
 
     public class Issue
     {
-        int id;
-        Nao nao;
 
-        private string title;
-        private string description;
-        private bool replicated;
-        private bool solved;
-        private DateTime date;
-        private DateTime replicatedDate;
-        private DateTime solvedDate;
-        private string solvedReport;
+        public int Id { get; set; }
+        public required Nao Nao { get; set; }
 
-        public int Id { get => id; set => id = value; }
-        public Nao Nao { get => nao; set => nao = value; }
-
-        public string Title { get => title; set => title = value; }
-        public string Description { get => description; set => description = value; }
-        public bool Replicated { get => replicated; set => replicated = value; }
-        public bool Solved { get => solved; set => solved = value; }
-        public DateTime Date { get => date; set => date = value; }
-        public DateTime ReplicatedDate { get => replicatedDate; set => replicatedDate = value; }
-        public DateTime SolvedDate { get => solvedDate; set => solvedDate = value; }
-        public string SolvedReport { get => solvedReport; set => solvedReport = value; }
+        public required string Title { get; set; }
+        public required string Description { get; set; }
+        public bool Replicated { get; set; }
+        public bool Solved { get; set; }
+        public DateTime Date { get; set; }
+        public DateTime ReplicatedDate { get; set; }
+        public DateTime SolvedDate { get; set; }
+        public string ?SolvedReport { get; set; }
     }
 
     public class Note
     {
-        int id;
-        Nao nao;
+        public int Id { get; set; }
+        public required Nao Nao { get; set; }
 
-        private string title;
-        private string description;
-        private DateTime date;
-
-        public int Id { get => id; set => id = value; }
-        public Nao Nao { get => nao; set => nao = value; }
-
-        public string Title { get => title; set => title = value; }
-        public string Description { get => description; set => description = value; }
-        public DateTime Date { get => date; set => date = value; }
+        public required string Title { get; set; }
+        public required string Description { get; set; }
+        public DateTime Date { get; set; }
     }
 
     public class ClinicVisit
     {
-        int id;
-        Nao nao;
+        public int Id { get; set; }
+        public required Nao Nao { get; set; }
 
-        private DateTime date;
-        private List<Issue> issues;
-        private bool isBack;
-        private string backReport;
-
-        public int Id { get => id; set => id = value; }
-        public Nao Nao { get => nao; set => nao = value; }
-
-        public DateTime Date { get => date; set => date = value; }
-        public List<Issue> Issues { get => issues; set => issues = value; }
-        public bool IsBack { get => isBack; set => isBack = value; }
-        public string BackReport { get => backReport; set => backReport = value; }
+        public DateTime Date { get; set; }
+        public required List<Issue> Issues { get; set; }
+        public bool IsBack { get; set; }
+        public string ?BackReport { get; set; }
     }
 
     public enum Status

@@ -17,7 +17,7 @@ namespace RobotManagerAPI.Controllers
         }
 
         // Create/Edit
-        [HttpPost("nao")]
+        [HttpPost("CreateEdit/nao")]
         public JsonResult CreateEditNao(Nao nao)
         {
             if (nao.Id == 0)
@@ -39,7 +39,7 @@ namespace RobotManagerAPI.Controllers
             return new JsonResult(Ok(nao));
         }
 
-        [HttpPost("issue")]
+        [HttpPost("CreateEdit/issue")]
         public JsonResult CreateEditIssue(Issue issue)
         {
             if (issue.Id == 0)
@@ -61,7 +61,7 @@ namespace RobotManagerAPI.Controllers
             return new JsonResult(Ok(issue));
         }
 
-        [HttpPost("note")]
+        [HttpPost("CreateEdit/note")]
         public JsonResult CreateEditNote(Note note)
         {
             if (note.Id == 0)
@@ -83,7 +83,7 @@ namespace RobotManagerAPI.Controllers
             return new JsonResult(Ok(note));
         }
 
-        [HttpPost("clinicVisit")]
+        [HttpPost("CreateEdit/clinicVisit")]
         public JsonResult CreateEditClinicVisit(ClinicVisit clinicVisit)
         {
             if (clinicVisit.Id == 0)
@@ -105,7 +105,7 @@ namespace RobotManagerAPI.Controllers
             return new JsonResult(Ok(clinicVisit));
         }
 
-        [HttpPost("game")]
+        [HttpPost("CreateEdit/game")]
         public JsonResult CreateEditGame(Game game)
         {
             if (game.Id == 0)
@@ -128,7 +128,7 @@ namespace RobotManagerAPI.Controllers
         }
 
         // Get
-        [HttpGet("nao/{id}")]
+        [HttpGet("GetSingle/nao/{id}")]
         public JsonResult GetNao(int id)
         {
             var nao = _context.Naos.Find(id);
@@ -140,7 +140,7 @@ namespace RobotManagerAPI.Controllers
             return new JsonResult(Ok(nao));
         }
 
-        [HttpGet("issue/{id}")]
+        [HttpGet("GetSingle/issue/{id}")]
         public JsonResult GetIssue(int id)
         {
             var issue = _context.Issues.Find(id);
@@ -152,7 +152,7 @@ namespace RobotManagerAPI.Controllers
             return new JsonResult(Ok(issue));
         }
 
-        [HttpGet("note/{id}")]
+        [HttpGet("GetSingle/note/{id}")]
         public JsonResult GetNote(int id)
         {
             var note = _context.Notes.Find(id);
@@ -164,7 +164,7 @@ namespace RobotManagerAPI.Controllers
             return new JsonResult(Ok(note));
         }
 
-        [HttpGet("clinicVisit/{id}")]
+        [HttpGet("GetSingle/clinicVisit/{id}")]
         public JsonResult GetClinicVisit(int id)
         {
             var clinicVisit = _context.ClinicVisits.Find(id);
@@ -176,7 +176,7 @@ namespace RobotManagerAPI.Controllers
             return new JsonResult(Ok(clinicVisit));
         }
 
-        [HttpGet("game/{id}")]
+        [HttpGet("GetSingle/game/{id}")]
         public JsonResult GetGame(int id)
         {
             var game = _context.Games.Find(id);
@@ -188,7 +188,7 @@ namespace RobotManagerAPI.Controllers
             return new JsonResult(Ok(game));
         }
 
-        [HttpGet("issue/{nao}")]
+        [HttpGet("GetGroup/issue/{nao}")]
         public JsonResult GetIssuesByNao(int nao)
         {
             var issues = _context.Issues.Where(i => i.Nao.Id == nao);
@@ -200,7 +200,7 @@ namespace RobotManagerAPI.Controllers
             return new JsonResult(Ok(issues));
         }
 
-        [HttpGet("note/{nao}")]
+        [HttpGet("GetGroup/note/{nao}")]
         public JsonResult GetNotesByNao(int nao)
         {
             var notes = _context.Notes.Where(n => n.Nao.Id == nao);
@@ -212,7 +212,7 @@ namespace RobotManagerAPI.Controllers
             return new JsonResult(Ok(notes));
         }
 
-        [HttpGet("clinicVisit/{nao}")]
+        [HttpGet("GetGroup/clinicVisit/{nao}")]
         public JsonResult GetClinicVisitsByNao(int nao)
         {
             var clinicVisits = _context.ClinicVisits.Where(c => c.Nao.Id == nao);
@@ -224,8 +224,69 @@ namespace RobotManagerAPI.Controllers
             return new JsonResult(Ok(clinicVisits));
         }
 
+        // Get All
+        [HttpGet("GetAll/naos")]
+        public JsonResult GetAllNaos()
+        {
+            var naos = _context.Naos;
+            if (naos == null)
+            {
+                return new JsonResult(NotFound());
+            }
+
+            return new JsonResult(Ok(naos));
+        }
+
+        [HttpGet("GetAll/issues")]
+        public JsonResult GetAllIssues()
+        {
+            var issues = _context.Issues;
+            if (issues == null)
+            {
+                return new JsonResult(NotFound());
+            }
+
+            return new JsonResult(Ok(issues));
+        }
+
+        [HttpGet("GetAll/notes")]
+        public JsonResult GetAllNotes()
+        {
+            var notes = _context.Notes;
+            if (notes == null)
+            {
+                return new JsonResult(NotFound());
+            }
+
+            return new JsonResult(Ok(notes));
+        }
+
+        [HttpGet("GetAll/clinicVisits")]
+        public JsonResult GetAllClinicVisits()
+        {
+            var clinicVisits = _context.ClinicVisits;
+            if (clinicVisits == null)
+            {
+                return new JsonResult(NotFound());
+            }
+
+            return new JsonResult(Ok(clinicVisits));
+        }
+
+        [HttpGet("GetAll/games")]
+        public JsonResult GetAllGames()
+        {
+            var games = _context.Games;
+            if (games == null)
+            {
+                return new JsonResult(NotFound());
+            }
+
+            return new JsonResult(Ok(games));
+        }
+
         // Delete
-        [HttpDelete("nao/{id}")]
+        [HttpDelete("Delete/nao/{id}")]
         public JsonResult DeleteNao(int id)
         {
             var nao = _context.Naos.Find(id);
@@ -240,7 +301,7 @@ namespace RobotManagerAPI.Controllers
             return new JsonResult(Ok());
         }
 
-        [HttpDelete("issue/{id}")]
+        [HttpDelete("Delete/issue/{id}")]
         public JsonResult DeleteIssue(int id)
         {
             var issue = _context.Issues.Find(id);
@@ -255,7 +316,7 @@ namespace RobotManagerAPI.Controllers
             return new JsonResult(Ok());
         }
 
-        [HttpDelete("note/{id}")]
+        [HttpDelete("Delete/note/{id}")]
         public JsonResult DeleteNote(int id)
         {
             var note = _context.Notes.Find(id);
@@ -270,7 +331,7 @@ namespace RobotManagerAPI.Controllers
             return new JsonResult(Ok());
         }
 
-        [HttpDelete("clinicVisit/{id}")]
+        [HttpDelete("Delete/clinicVisit/{id}")]
         public JsonResult DeleteClinicVisit(int id)
         {
             var clinicVisit = _context.ClinicVisits.Find(id);
@@ -285,7 +346,7 @@ namespace RobotManagerAPI.Controllers
             return new JsonResult(Ok());
         }
 
-        [HttpDelete("game/{id}")]
+        [HttpDelete("Delete/game/{id}")]
         public JsonResult DeleteGame(int id)
         {
             var game = _context.Games.Find(id);
@@ -298,67 +359,6 @@ namespace RobotManagerAPI.Controllers
             _context.SaveChanges();
 
             return new JsonResult(Ok());
-        }
-
-        // Get All
-        [HttpGet("naos")]
-        public JsonResult GetAllNaos()
-        {
-            var naos = _context.Naos;
-            if (naos == null)
-            {
-                return new JsonResult(NotFound());
-            }
-
-            return new JsonResult(Ok(naos));
-        }
-
-        [HttpGet("issues")]
-        public JsonResult GetAllIssues()
-        {
-            var issues = _context.Issues;
-            if (issues == null)
-            {
-                return new JsonResult(NotFound());
-            }
-
-            return new JsonResult(Ok(issues));
-        }
-
-        [HttpGet("notes")]
-        public JsonResult GetAllNotes()
-        {
-            var notes = _context.Notes;
-            if (notes == null)
-            {
-                return new JsonResult(NotFound());
-            }
-
-            return new JsonResult(Ok(notes));
-        }
-
-        [HttpGet("clinicVisits")]
-        public JsonResult GetAllClinicVisits()
-        {
-            var clinicVisits = _context.ClinicVisits;
-            if (clinicVisits == null)
-            {
-                return new JsonResult(NotFound());
-            }
-
-            return new JsonResult(Ok(clinicVisits));
-        }
-
-        [HttpGet("games")]
-        public JsonResult GetAllGames()
-        {
-            var games = _context.Games;
-            if (games == null)
-            {
-                return new JsonResult(NotFound());
-            }
-
-            return new JsonResult(Ok(games));
         }
 
     }
