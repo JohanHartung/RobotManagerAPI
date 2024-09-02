@@ -23,6 +23,19 @@ namespace RobotManagerAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.WebHost.ConfigureKestrel(options =>
+            {
+                options.ListenAnyIP(5000);
+                options.ListenAnyIP(5001, listenOptions =>
+                {
+
+                    listenOptions.UseHttps(
+                        "/etc/letsencrypt/live/skakominor.de/fullchain.pem",
+                        "/etc/letsencrypt/live/skakominor.de/privkey.pem"
+                    );
+                });
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
