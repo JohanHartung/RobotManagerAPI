@@ -1,6 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using RobotManagerAPI.Data;
 
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using System.IO;
+
 namespace RobotManagerAPI
 {
     public class Program
@@ -28,7 +32,7 @@ namespace RobotManagerAPI
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseAuthorization();
 
