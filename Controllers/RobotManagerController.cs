@@ -191,7 +191,7 @@ namespace RobotManagerAPI.Controllers
         [HttpGet("GetGroup/issue/{nao}")]
         public JsonResult GetIssuesByNao(int nao)
         {
-            var issues = _context.Issues.Where(i => i.Nao.Id == nao);
+            var issues = _context.Issues.Where(i => i.Nao == nao);
             if (issues == null)
             {
                 return new JsonResult(NotFound());
@@ -203,7 +203,7 @@ namespace RobotManagerAPI.Controllers
         [HttpGet("GetGroup/note/{nao}")]
         public JsonResult GetNotesByNao(int nao)
         {
-            var notes = _context.Notes.Where(n => n.Nao.Id == nao);
+            var notes = _context.Notes.Where(n => n.Nao == nao);
             if (notes == null)
             {
                 return new JsonResult(NotFound());
@@ -215,7 +215,7 @@ namespace RobotManagerAPI.Controllers
         [HttpGet("GetGroup/clinicVisit/{nao}")]
         public JsonResult GetClinicVisitsByNao(int nao)
         {
-            var clinicVisits = _context.ClinicVisits.Where(c => c.Nao.Id == nao);
+            var clinicVisits = _context.ClinicVisits.Where(c => c.Nao == nao);
             if (clinicVisits == null)
             {
                 return new JsonResult(NotFound());
