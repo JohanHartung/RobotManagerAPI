@@ -30,7 +30,7 @@
     {
 
         public int Id { get; set; }
-        public required Nao Nao { get; set; }
+        public required int Nao { get; set; }
 
         public required string Title { get; set; }
         public required string Description { get; set; }
@@ -45,7 +45,7 @@
     public class Note
     {
         public int Id { get; set; }
-        public required Nao Nao { get; set; }
+        public required int Nao { get; set; }
 
         public required string Title { get; set; }
         public required string Description { get; set; }
@@ -55,7 +55,7 @@
     public class ClinicVisit
     {
         public int Id { get; set; }
-        public required Nao Nao { get; set; }
+        public required int Nao { get; set; }
 
         public DateTime Date { get; set; }
         public required List<Issue> Issues { get; set; }
