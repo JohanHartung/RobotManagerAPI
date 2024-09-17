@@ -1,7 +1,8 @@
 # Robot Manager API
+
+## API Calls
+
 ### Creating/Edit Naos, Issues, Notes, Clinic Visits, and Games
-
-
 <details>
  <summary><code>POST</code> <code><b>/api/RobotManager/CreateEdit/nao</b></code> <code>(Create/Edit Nao)</code></summary>
 
@@ -18,59 +19,22 @@
 
 > ```json
 > {
->   "id": 0,
->   "name": "string",
->   "headID": "string",
->   "bodyID": "string",
->   "warrantyExtension": 0,
->   "purchased": "2024-09-17T11:02:12.739Z",
->   "issues": [
->     {
->       "id": 0,
->       "nao": 0,
->       "title": "string",
->       "description": "string",
->       "replicated": true,
->       "solved": true,
->       "date": "2024-09-17T11:02:12.739Z",
->       "replicatedDate": "2024-09-17T11:02:12.739Z",
->       "solvedDate": "2024-09-17T11:02:12.739Z",
->       "solvedReport": "string"
->     }
->   ],
->   "notes": [
->     {
->       "id": 0,
->       "nao": 0,
->       "title": "string",
->       "description": "string",
->       "date": "2024-09-17T11:02:12.739Z"
->     }
->   ],
->   "clinicVisits": [
->     {
->       "id": 0,
->       "nao": 0,
->       "date": "2024-09-17T11:02:12.739Z",
->       "issues": [
->         {
->           "id": 0,
->           "nao": 0,
->           "title": "string",
->           "description": "string",
->           "replicated": true,
->           "solved": true,
->           "date": "2024-09-17T11:02:12.739Z",
->           "replicatedDate": "2024-09-17T11:02:12.739Z",
->           "solvedDate": "2024-09-17T11:02:12.739Z",
->           "solvedReport": "string"
->         }
->       ],
->       "isBack": true,
->       "backReport": "string"
->     }
->   ],
->   "status": 0
+>  "id": 0,
+>  "name": "string",
+>  "headID": "string",
+>  "bodyID": "string",
+>  "warrantyExtension": 0,
+>  "purchased": "2024-09-17T11:48:29.256Z",
+>  "issues": [
+>    0
+>  ],
+>  "notes": [
+>    0
+>  ],
+>  "clinicVisits": [
+>    0
+>  ],
+>  "status": 0
 > }
 > ```
 
@@ -558,4 +522,163 @@
 > | `200`         | `application/json`                | `{"status":"OK"}`                                                   |
 > | `404`         | `application/json`                | `{"status":"Not Found"}`                                            |
 
+</details>
+
+## Schemas
+<details>
+ <summary>ClinicVisit</summary>
+
+> ```json
+>{
+>  "id": "integer($int32)",
+>  "nao": "integer($int32)",
+>  "date": "string($date-time)",
+>  "issues": {
+>    "type": "array",
+>    "items": "integer($int32)",
+>    "nullable": true
+>  },
+>  "isBack": "boolean",
+>  "backReport": {
+>    "type": "string",
+>    "nullable": true
+>  }
+>}
+> ```
+
+</details>
+<details>
+ <summary>ClinicVisit</summary>
+
+> ```json
+>{
+>   "Enum": [0, 1, 2, 3]  
+>}
+> ```
+</details>
+
+<details>
+ <summary>Game</summary>
+
+> ```json
+>{
+>   "id": "integer($int32)",
+>   "date": "string($date-time)",
+>   "against": "string",
+>   "nullable": true,
+>   "field": "Fieldinteger($int32)",
+>   "Enum": [0, 1, 2, 3]
+>}
+> ```
+</details>
+
+<details>
+ <summary>ClinicVisit</summary>
+
+> ```json
+>{
+>   "Enum": [0, 1, 2, 3]  
+>}
+> ```
+</details>
+
+<details>
+ <summary>Issue</summary>
+
+> ```json
+>{
+>   "id": "integer($int32)",
+>   "nao": "integer($int32)",
+>   "title": "string",
+>   "nullable": true,
+>   "description": "string",
+>   "nullable": true,
+>   "replicated": "boolean",
+>   "solved": "boolean",
+>   "date": "string($date-time)",
+>   "replicatedDate": "string($date-time)",
+>   "solvedDate": "string($date-time)",
+>   "solvedReport": {
+>     "type": "string",
+>     "nullable": true   
+>   }
+>}
+> ```
+</details>
+
+<details>
+ <summary>Nao</summary>
+
+> ```json
+>{
+>   "id": "integer($int32)",
+>   "name": {
+>     "type": "string",
+>     "nullable": true
+>   },
+>   "headID": {
+>     "type": "string",
+>     "nullable": true
+>   },
+>   "bodyID": {
+>     "type": "string",
+>     "nullable": true
+>   },
+>   "warrantyExtension": "integer($int32)",
+>   "purchased": "string($date-time)",
+>   "issues": {
+>     "type": "array",
+>     "items": "integer($int32)",
+>     "nullable": true
+>   },
+>   "notes": {
+>     "type": "array",
+>     "items": "integer($int32)",
+>     "nullable": true
+>   },
+>   "clinicVisits": {
+>     "type": "array",
+>     "items": "integer($int32)",
+>     "nullable": true
+>   },
+>   "status": {
+>     "type": "Statusinteger($int32)",
+>     "Enum": [0, 1, 2]
+>   } 
+>}
+> ```
+</details>
+
+<details>
+ <summary>Note</summary>
+
+> ```json
+>{
+>   "id": "integer($int32)",
+>   "nao": "integer($int32)",
+>   "title": {
+>     "type": "string",
+>     "nullable": true
+>   },
+>   "description": {
+>     "type": "string",
+>     "nullable": true
+>   },
+>   "date": "string($date-time)"   
+>}
+> ```
+</details>
+
+<details>
+ <summary>Status</summary>
+
+> ```json
+>{
+>   "Enum": [0, 1, 2],
+>   "EnumDescriptions": {
+>     "0": "Free",
+>     "1": "Game",
+>     "2": "Clinic"
+>}
+> ```
 </details>

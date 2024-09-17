@@ -8,9 +8,9 @@
         private string bodyID = string.Empty;
         private int warrantyExtension;
         private DateTime purchased;
-        private List<Issue> issues = new();
-        private List<Note> notes = new();
-        private List<ClinicVisit> clinicVisits = new();
+        private List<int> issues = new();
+        private List<int> notes = new();
+        private List<int> clinicVisits = new();
         private Status status;
 
         public int Id { get => id; set => id = value; }
@@ -20,9 +20,9 @@
         public int WarrantyExtension { get => warrantyExtension; set => warrantyExtension = value; }
         public DateTime Purchased { get => purchased; set => purchased = value; }
 
-        public List<Issue> Issues { get => issues; set => issues = value; }
-        public List<Note> Notes { get => notes; set => notes = value; }
-        public List<ClinicVisit> ClinicVisits { get => clinicVisits; set => clinicVisits = value; }
+        public List<int> Issues { get => issues; set => issues = value; }
+        public List<int> Notes { get => notes; set => notes = value; }
+        public List<int> ClinicVisits { get => clinicVisits; set => clinicVisits = value; }
         public Status Status { get => status; set => status = value; }
     }
 
@@ -58,7 +58,7 @@
         public required int Nao { get; set; }
 
         public DateTime Date { get; set; }
-        public required List<Issue> Issues { get; set; }
+        public required List<int> Issues { get; set; }
         public bool IsBack { get; set; }
         public string ?BackReport { get; set; }
     }
