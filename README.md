@@ -158,6 +158,7 @@
 >    }
 >  ],
 >  "isBack": true,
+>  "notes": "string",
 >  "backReport": "string"
 > }
 > ```
@@ -526,87 +527,6 @@
 
 ## Schemas
 <details>
- <summary>ClinicVisit</summary>
-
-> ```json
->{
->  "id": "integer($int32)",
->  "nao": "integer($int32)",
->  "date": "string($date-time)",
->  "issues": {
->    "type": "array",
->    "items": "integer($int32)",
->    "nullable": true
->  },
->  "isBack": "boolean",
->  "backReport": {
->    "type": "string",
->    "nullable": true
->  }
->}
-> ```
-
-</details>
-<details>
- <summary>ClinicVisit</summary>
-
-> ```json
->{
->   "Enum": [0, 1, 2, 3]  
->}
-> ```
-</details>
-
-<details>
- <summary>Game</summary>
-
-> ```json
->{
->   "id": "integer($int32)",
->   "date": "string($date-time)",
->   "against": "string",
->   "nullable": true,
->   "field": "Fieldinteger($int32)",
->   "Enum": [0, 1, 2, 3]
->}
-> ```
-</details>
-
-<details>
- <summary>ClinicVisit</summary>
-
-> ```json
->{
->   "Enum": [0, 1, 2, 3]  
->}
-> ```
-</details>
-
-<details>
- <summary>Issue</summary>
-
-> ```json
->{
->   "id": "integer($int32)",
->   "nao": "integer($int32)",
->   "title": "string",
->   "nullable": true,
->   "description": "string",
->   "nullable": true,
->   "replicated": "boolean",
->   "solved": "boolean",
->   "date": "string($date-time)",
->   "replicatedDate": "string($date-time)",
->   "solvedDate": "string($date-time)",
->   "solvedReport": {
->     "type": "string",
->     "nullable": true   
->   }
->}
-> ```
-</details>
-
-<details>
  <summary>Nao</summary>
 
 > ```json
@@ -650,6 +570,21 @@
 </details>
 
 <details>
+ <summary>Game</summary>
+
+> ```json
+>{
+>   "id": "integer($int32)",
+>   "date": "string($date-time)",
+>   "against": "string",
+>   "nullable": true,
+>   "field": "Fieldinteger($int32)",
+>   "Enum": [0, 1, 2, 3]
+>}
+> ```
+</details>
+
+<details>
  <summary>Note</summary>
 
 > ```json
@@ -667,6 +602,53 @@
 >   "date": "string($date-time)"   
 >}
 > ```
+</details>
+
+<details>
+ <summary>Issue</summary>
+
+> ```json
+>{
+>   "id": "integer($int32)",
+>   "nao": "integer($int32)",
+>   "title": "string",
+>   "nullable": true,
+>   "description": "string",
+>   "nullable": true,
+>   "replicated": "boolean",
+>   "solved": "boolean",
+>   "date": "string($date-time)",
+>   "replicatedDate": "string($date-time)",
+>   "solvedDate": "string($date-time)",
+>   "solvedReport": {
+>     "type": "string",
+>     "nullable": true   
+>   }
+>}
+> ```
+</details>
+
+<details>
+ <summary>ClinicVisit</summary>
+
+> ```json
+>{
+>  "id": "integer($int32)",
+>  "nao": "integer($int32)",
+>  "date": "string($date-time)",
+>  "issues": {
+>    "type": "array",
+>    "items": "integer($int32)",
+>    "nullable": true
+>  },
+>  "isBack": "boolean",
+>  "backReport": {
+>    "type": "string",
+>    "nullable": true
+>  }
+>}
+> ```
+
 </details>
 
 <details>
