@@ -208,7 +208,7 @@
 
 </details>
 
-### Advanced Updates
+#### Advanced Updates
 
 <details>
  <summary><code>POST</code> <code><b>/api/RobotManager/SetStatus/{nao, status}</b></code> <code>(Set Status)</code></summary>
