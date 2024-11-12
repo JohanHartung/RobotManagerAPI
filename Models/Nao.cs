@@ -28,39 +28,66 @@
 
     public class Issue
     {
+        private int id;
+        private int nao;
+        private string title = String.Empty;
+        private string? description;
+        private bool replicated;
+        private bool solved;
+        private DateTime date;
+        private DateTime replicatedDate;
+        private DateTime solvedDate;
+        private string? solvedReport;
 
-        public int Id { get; set; }
-        public required int Nao { get; set; }
+        public int Id { get => id; set => id = value; }
+        public int Nao { get => nao; set => nao = value; }
 
-        public required string Title { get; set; }
-        public required string Description { get; set; }
-        public bool Replicated { get; set; }
-        public bool Solved { get; set; }
-        public DateTime Date { get; set; }
-        public DateTime ReplicatedDate { get; set; }
-        public DateTime SolvedDate { get; set; }
-        public string ?SolvedReport { get; set; }
+        public string Title { get => title; set => title = value; }
+        public string? Description { get => description; set => description = value; }
+        public bool Replicated { get => replicated; set => replicated = value; }
+        public bool Solved { get => solved; set => solved = value; }
+        public DateTime Date { get => date; set => date = value; }
+        public DateTime ReplicatedDate { get => replicatedDate; set => replicatedDate = value; }
+        public DateTime SolvedDate { get => solvedDate; set => solvedDate = value; }
+        public string? SolvedReport { get => solvedReport; set => solvedReport = value; }
     }
 
     public class Note
     {
-        public int Id { get; set; }
-        public required int Nao { get; set; }
+        private int id;
+        private int nao;
+        private string title = String.Empty;
+        private string? description;
+        private DateTime date;
 
-        public required string Title { get; set; }
-        public required string Description { get; set; }
-        public DateTime Date { get; set; }
+        public int Id { get => id; set => id = value; }
+        public int Nao { get => nao; set => nao = value; }
+
+        public string Title { get => title; set => title = value; }
+        public string? Description { get => description; set => description = value; }
+        public DateTime Date { get => date; set => date = value; }
     }
 
     public class ClinicVisit
     {
-        public int Id { get; set; }
-        public required int Nao { get; set; }
+        private int id;
+        private int nao;
+        private DateTime date;
+        private DateTime backDate;
+        private List<int>? issues;
+        private bool isBack;
+        private string? notes;
+        private string? backReport;
 
-        public DateTime Date { get; set; }
-        public required List<int> Issues { get; set; }
-        public bool IsBack { get; set; }
-        public string ?BackReport { get; set; }
+        public int Id { get => id; set => id = value; }
+        public int Nao { get => nao; set => nao = value; }
+
+        public DateTime Date { get => date; set => date = value; }
+        public DateTime BackDate { get => backDate; set => backDate = value; }
+        public List<int>? Issues { get => issues; set => issues = value; }
+        public bool IsBack { get => isBack; set => isBack = value; }
+        public string? Notes { get => notes; set => notes = value; }
+        public string? BackReport { get => backReport; set => backReport = value; }
     }
 
     public enum Status
