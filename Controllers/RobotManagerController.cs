@@ -127,6 +127,75 @@ namespace RobotManagerAPI.Controllers
             return new JsonResult(Ok(game));
         }
 
+        [HttpPost("SetStatus/{nao, status}")]
+        public JsonResult SetStatus(int nao, Status status)
+        {
+            var _nao = _context.Naos.Find(nao);
+            if (_nao == null)
+            {
+                return new JsonResult(NotFound());
+            }
+            _nao.Status = status;
+            _context.SaveChanges();
+            return new JsonResult(Ok());
+        }
+
+        [HttpPost("ReplicateIssue/{id, dateTime}")]
+        public JsonResult ReplicateIssue(int issue, DateTime dateTime)
+        {
+            var _issue = _context.Issues.Find(issue);
+            if (_issue == null)
+            {
+                return new JsonResult(NotFound());
+            }
+            _issue.Replicated = true;
+            _issue.ReplicatedDate = dateTime;
+            _context.SaveChanges();
+            return new JsonResult(Ok());
+        }
+
+        [HttpPost("SolveIssue/{issue, dateTime, report}")]
+        public JsonResult SolveIssue(int issue, DateTime dateTime, string report)
+        {
+            var _issue = _context.Issues.Find(issue);
+            if (_issue == null)
+            {
+                return new JsonResult(NotFound());
+            }
+            _issue.Solved = true;
+            _issue.SolvedDate = dateTime;
+            _issue.SolvedReport = report;
+            _context.SaveChanges();
+            return new JsonResult(Ok());
+        }
+
+        [HttpPost("EndClinicVisit/{clinicVisit, dateTime, report}")]
+        public JsonResult EndClinicVisit(int clinicVisit, DateTime dateTime, string report)
+        {
+            var _clinicVisit = _context.ClinicVisits.Find(clinicVisit);
+            if (_clinicVisit == null)
+            {
+                return new JsonResult(NotFound());
+            }
+            _clinicVisit.BackDate = dateTime;
+            _clinicVisit.BackReport = report;
+            _context.SaveChanges();
+            return new JsonResult(Ok());
+        }
+
+        [HttpPost("AddIssueToClinicVisit/{clinicVisit, issue}")]
+        public JsonResult AddIssueToClinicVisit(int clinicVisit, int issue)
+        {
+            var clinicVisitInDb = _context.ClinicVisits.Find(clinicVisit);
+            if (clinicVisitInDb == null)
+            {
+                return new JsonResult(NotFound());
+            }
+            clinicVisitInDb.Issues.Add(issue);
+            _context.SaveChanges();
+            return new JsonResult(Ok());
+        }
+
         // Get
         [HttpGet("GetSingle/nao/{id}")]
         public JsonResult GetNao(int id)
@@ -286,76 +355,76 @@ namespace RobotManagerAPI.Controllers
         }
 
         // Delete
-        [HttpDelete("Delete/nao/{id}")]
-        public JsonResult DeleteNao(int id)
+        [HttpDelete("Delete/nao/{nao}")]
+        public JsonResult DeleteNao(int nao)
         {
-            var nao = _context.Naos.Find(id);
-            if (nao == null)
+            var _nao = _context.Naos.Find(nao);
+            if (_nao == null)
             {
                 return new JsonResult(NotFound());
             }
 
-            _context.Naos.Remove(nao);
+            _context.Naos.Remove(_nao);
             _context.SaveChanges();
 
             return new JsonResult(Ok());
         }
 
-        [HttpDelete("Delete/issue/{id}")]
-        public JsonResult DeleteIssue(int id)
+        [HttpDelete("Delete/issue/{issue}")]
+        public JsonResult DeleteIssue(int issue)
         {
-            var issue = _context.Issues.Find(id);
-            if (issue == null)
+            var _issue = _context.Issues.Find(issue);
+            if (_issue == null)
             {
                 return new JsonResult(NotFound());
             }
 
-            _context.Issues.Remove(issue);
+            _context.Issues.Remove(_issue);
             _context.SaveChanges();
 
             return new JsonResult(Ok());
         }
 
-        [HttpDelete("Delete/note/{id}")]
-        public JsonResult DeleteNote(int id)
+        [HttpDelete("Delete/note/{note}")]
+        public JsonResult DeleteNote(int note)
         {
-            var note = _context.Notes.Find(id);
-            if (note == null)
+            var _note = _context.Notes.Find(note);
+            if (_note == null)
             {
                 return new JsonResult(NotFound());
             }
 
-            _context.Notes.Remove(note);
+            _context.Notes.Remove(_note);
             _context.SaveChanges();
 
             return new JsonResult(Ok());
         }
 
-        [HttpDelete("Delete/clinicVisit/{id}")]
-        public JsonResult DeleteClinicVisit(int id)
+        [HttpDelete("Delete/clinicVisit/{clinicVisit}")]
+        public JsonResult DeleteClinicVisit(int clinicVisit)
         {
-            var clinicVisit = _context.ClinicVisits.Find(id);
-            if (clinicVisit == null)
+            var _clinicVisit = _context.ClinicVisits.Find(clinicVisit);
+            if (_clinicVisit == null)
             {
                 return new JsonResult(NotFound());
             }
 
-            _context.ClinicVisits.Remove(clinicVisit);
+            _context.ClinicVisits.Remove(_clinicVisit);
             _context.SaveChanges();
 
             return new JsonResult(Ok());
         }
 
-        [HttpDelete("Delete/game/{id}")]
-        public JsonResult DeleteGame(int id)
+        [HttpDelete("Delete/game/{game}")]
+        public JsonResult DeleteGame(int game)
         {
-            var game = _context.Games.Find(id);
-            if (game == null)
+            var _game = _context.Games.Find(game);
+            if (_game == null)
             {
                 return new JsonResult(NotFound());
             }
 
-            _context.Games.Remove(game);
+            _context.Games.Remove(_game);
             _context.SaveChanges();
 
             return new JsonResult(Ok());
