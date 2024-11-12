@@ -208,7 +208,90 @@
 
 </details>
 
-### Get Single and Group Data
+### Advanced Updates
+
+<details>
+ <summary><code>POST</code> <code><b>/api/RobotManager/SetStatus/{nao, status}</b></code> <code>(Set Status)</code></summary>
+ 
+##### Parameters
+
+> | name      |  type     | data type               | description                                                           |
+> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
+> | nao       |  required | int                     | The ID of the Nao to set status for                                   |
+> | status    |  required | Status                  | The new status for the Nao                                            |
+
+##### Responses
+> | http code     | content-type                      | response                                                            |
+> |---------------|-----------------------------------|---------------------------------------------------------------------|
+> | `200`         | `application/json`                | `{"status":"OK"}`                                                   |
+> | `404`         | `application/json`                | `{"status":"Not Found"}`                                            |
+</details>
+
+<details>
+ <summary><code>POST</code> <code><b>/api/RobotManager/ReplicateIssue/{id, dateTime}</b></code> <code>(Replicate Issue)</code></summary>
+
+##### Parameters
+> | name      |  type     | data type               | description                                                           |
+> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
+> | id        |  required | int                     | The ID of the Issue to replicate                                      |
+> | dateTime  |  required | DateTime                | The date and time of replication                                      |
+##### Responses
+> | http code     | content-type                      | response                                                            |
+> |---------------|-----------------------------------|---------------------------------------------------------------------|
+> | `200`         | `application/json`                | `{"status":"OK"}`                                                   |
+> | `404`         | `application/json`                | `{"status":"Not Found"}`                                            |
+</details>
+
+<details>
+ <summary><code>POST</code> <code><b>/api/RobotManager/SolveIssue/{issue, dateTime, report}</b></code> <code>(Solve Issue)</code></summary>
+
+##### Parameters
+> | name      |  type     | data type               | description                                                           |
+> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
+> | issue     |  required | int                     | The ID of the Issue to solve                                          |
+> | dateTime  |  required | DateTime                | The date and time of solving                                          |
+> | report    |  required | string                  | The report of the solution                                            |
+##### Responses
+> | http code     | content-type                      | response                                                            |
+> |---------------|-----------------------------------|---------------------------------------------------------------------|
+> | `200`         | `application/json`                | `{"status":"OK"}`                                                   |
+> | `404`         | `application/json`                | `{"status":"Not Found"}`                                            |
+</details>
+
+<details>
+ <summary><code>POST</code> <code><b>/api/RobotManager/EndClinicVisit/{clinicVisit, dateTime, report}</b></code> <code>(End Clinic Visit)</code></summary>
+
+##### Parameters
+> | name          |  type     | data type               | description                                                           |
+> |---------------|-----------|-------------------------|-----------------------------------------------------------------------|
+> | clinicVisit   |  required | int                     | The ID of the Clinic Visit to end                                     |
+> | dateTime      |  required | DateTime                | The date and time of ending                                           |
+> | report        |  required | string                  | The report of the clinic visit                                        |
+##### Responses
+> | http code     | content-type                      | response                                                            |
+> |---------------|-----------------------------------|---------------------------------------------------------------------|
+> | `200`         | `application/json`                | `{"status":"OK"}`                                                   |
+> | `404`         | `application/json`                | `{"status":"Not Found"}`                                            |
+</details>
+
+<details>
+ <summary><code>POST</code> <code><b>/api/RobotManager/AddIssueToClinicVisit/{clinicVisit, issue}</b></code> <code>(Add Issue to Clinic Visit)</code></summary>
+ 
+##### Parameters
+> | name          |  type     | data type               | description                                                           |
+> |---------------|-----------|-------------------------|-----------------------------------------------------------------------|
+> | clinicVisit   |  required | int                     | The ID of the Clinic Visit to add the issue to                        |
+> | issue         |  required | int                     | The ID of the Issue to add                                            |
+##### Responses
+> | http code     | content-type                      | response                                                            |
+> |---------------|-----------------------------------|---------------------------------------------------------------------|
+> | `200`         | `application/json`                | `{"status":"OK"}`                                                   |
+> | `404`         | `application/json`                | `{"status":"Not Found"}`                                            |
+</details>
+
+
+### Get Data
+#### Get Single Data
 
 <details>
  <summary><code>GET</code> <code><b>/api/RobotManager/GetSingle/nao/{id}</b></code> <code>(Get Single Nao)</code></summary>
@@ -300,6 +383,8 @@
 
 </details>
 
+#### Get Group Data
+
 <details>
  <summary><code>GET</code> <code><b>/api/RobotManager/GetGroup/issue/{nao}</b></code> <code>(Get Issues by Nao)</code></summary>
 
@@ -353,6 +438,8 @@
 > | `404`         | `application/json`                | `{"status":"Not Found"}`                                            |
 
 </details>
+
+#### Get All Data
 
 <details>
  <summary><code>GET</code> <code><b>/api/RobotManager/GetAll/naos</b></code> <code>(Get All Naos)</code></summary>
