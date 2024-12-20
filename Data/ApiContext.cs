@@ -14,5 +14,7 @@ namespace RobotManagerAPI.Data
         public DbSet<Note> Notes { get; set; }
         public DbSet<ClinicVisit> ClinicVisits { get; set; }
         public DbSet<Game> Games { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Process> Processes { get; set; }
     }
 }
