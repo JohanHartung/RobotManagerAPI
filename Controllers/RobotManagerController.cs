@@ -18,15 +18,19 @@ namespace RobotManagerAPI.Controllers
         {
             _context = context;
         }
-
+        
         // Create/Edit
         [HttpPost("CreateEdit/nao")]
-        public JsonResult CreateEditNao(Nao nao, int userId, string deviceId, DateTime dateTime, string userSecret)
+        public JsonResult CreateEditNao([FromBody] NaoCreateEditRequest request)
         {
-            if (!VerifyUserToken(userId, deviceId, dateTime, userSecret))
+            if (!VerifyUserToken(request.UserId, request.DeviceId, request.DateTime, request.UserSecret))
             {
                 return new JsonResult(NotFound());
             }
+
+            //var nao = Reasamble(request);
+            var nao = request.Nao;
+            
             if (nao.Id == 0)
             {
                 _context.Naos.Add(nao);
@@ -43,120 +47,116 @@ namespace RobotManagerAPI.Controllers
 
             _context.SaveChanges();
 
-            return new JsonResult(Ok(nao));
+            return new JsonResult(nao);
         }
 
         [HttpPost("CreateEdit/issue")]
-        public JsonResult CreateEditIssue(Issue issue, int userId, string deviceId, DateTime dateTime, string userSecret)
+        public JsonResult CreateEditIssue([FromBody] IssueCreateEditRequest request)
         {
-            if (!VerifyUserToken(userId, deviceId, dateTime, userSecret))
+            if (!VerifyUserToken(request.UserId, request.DeviceId, request.DateTime, request.UserSecret))
             {
                 return new JsonResult(NotFound());
             }
-            if (issue.Id == 0)
+            if (request.Issue.Id == 0)
             {
-                _context.Issues.Add(issue);
+                _context.Issues.Add(request.Issue);
             }
             else
             {
-                var issueInDb = _context.Issues.SingleOrDefault(i => i.Id == issue.Id);
+                var issueInDb = _context.Issues.SingleOrDefault(i => i.Id == request.Issue.Id);
                 if (issueInDb == null)
                 {
                     return new JsonResult(NotFound());
                 }
-                issueInDb = issue;
+                issueInDb = request.Issue;
             }
 
             _context.SaveChanges();
 
-            return new JsonResult(Ok(issue));
+            return new JsonResult(request.Issue);
         }
 
         [HttpPost("CreateEdit/note")]
-        public JsonResult CreateEditNote(Note note, int userId, string deviceId, DateTime dateTime, string userSecret)
+        public JsonResult CreateEditNote([FromBody] NoteCreateEditRequest request)
         {
-            if (!VerifyUserToken(userId, deviceId, dateTime, userSecret))
+            if (!VerifyUserToken(request.UserId, request.DeviceId, request.DateTime, request.UserSecret))
             {
                 return new JsonResult(NotFound());
             }
-            if (note.Id == 0)
+            if (request.Note.Id == 0)
             {
-                _context.Notes.Add(note);
+                _context.Notes.Add(request.Note);
             }
             else
             {
-                var noteInDb = _context.Notes.SingleOrDefault(n => n.Id == note.Id);
+                var noteInDb = _context.Notes.SingleOrDefault(n => n.Id == request.Note.Id);
                 if (noteInDb == null)
                 {
                     return new JsonResult(NotFound());
                 }
-                noteInDb = note;
+                noteInDb = request.Note;
             }
 
             _context.SaveChanges();
 
-            return new JsonResult(Ok(note));
+            return new JsonResult(request.Note);
         }
 
         [HttpPost("CreateEdit/clinicVisit")]
-        public JsonResult CreateEditClinicVisit(ClinicVisit clinicVisit, int userId, string deviceId, DateTime dateTime, string userSecret)
+        public JsonResult CreateEditClinicVisit([FromBody] ClinicVisitCreateEditRequest request)
         {
-            if (!VerifyUserToken(userId, deviceId, dateTime, userSecret))
+            if (!VerifyUserToken(request.UserId, request.DeviceId, request.DateTime, request.UserSecret))
             {
                 return new JsonResult(NotFound());
             }
-            if (clinicVisit.Id == 0)
+            if (request.ClinicVisit.Id == 0)
             {
-                _context.ClinicVisits.Add(clinicVisit);
+                _context.ClinicVisits.Add(request.ClinicVisit);
             }
             else
             {
-                var clinicVisitInDb = _context.ClinicVisits.SingleOrDefault(n => n.Id == clinicVisit.Id);
+                var clinicVisitInDb = _context.ClinicVisits.SingleOrDefault(n => n.Id == request.ClinicVisit.Id);
                 if (clinicVisitInDb == null)
                 {
                     return new JsonResult(NotFound());
                 }
-                clinicVisitInDb = clinicVisit;
+                clinicVisitInDb = request.ClinicVisit;
             }
 
             _context.SaveChanges();
 
-            return new JsonResult(Ok(clinicVisit));
+            return new JsonResult(request.ClinicVisit);
         }
 
         [HttpPost("CreateEdit/game")]
-        public JsonResult CreateEditGame(Game game, int userId, string deviceId, DateTime dateTime, string userSecret)
+        public JsonResult CreateEditGame([FromBody] GameCreateEditRequest request)
         {
-            if (!VerifyUserToken(userId, deviceId, dateTime, userSecret))
+            if (!VerifyUserToken(request.UserId, request.DeviceId, request.DateTime, request.UserSecret))
             {
                 return new JsonResult(NotFound());
             }
-            if (game.Id == 0)
+            if (request.Game.Id == 0)
             {
-                _context.Games.Add(game);
+                _context.Games.Add(request.Game);
             }
             else
             {
-                var gameInDb = _context.Games.SingleOrDefault(n => n.Id == game.Id);
+                var gameInDb = _context.Games.SingleOrDefault(n => n.Id == request.Game.Id);
                 if (gameInDb == null)
                 {
                     return new JsonResult(NotFound());
                 }
-                gameInDb = game;
+                gameInDb = request.Game;
             }
 
             _context.SaveChanges();
 
-            return new JsonResult(Ok(game));
+            return new JsonResult(request.Game);
         }
 
         [HttpPost("SetStatus/{nao, status}")]
-        public JsonResult SetStatus(int nao, Status status, int userId, string deviceId, DateTime dateTime, string userSecret)
+        public JsonResult SetStatus(int nao, string status)
         {
-            if (!VerifyUserToken(userId, deviceId, dateTime, userSecret))
-            {
-                return new JsonResult(NotFound());
-            }
             var _nao = _context.Naos.SingleOrDefault(n => n.Id == nao);
             if (_nao == null)
             {
@@ -167,50 +167,36 @@ namespace RobotManagerAPI.Controllers
             return new JsonResult(Ok());
         }
 
-        [HttpPost("ReplicateIssue/{id, dateTime}")]
-        public JsonResult ReplicateIssue(int issue, DateTime dateTime, int userId, string deviceId, string userSecret)
+        [HttpPost("ReplicateIssue/{id, dateTime, user}")]
+        public JsonResult ReplicateIssue(int issue, string dateTime, int user)
         {
-            if (!VerifyUserToken(userId, deviceId, dateTime, userSecret))
-            {
-                return new JsonResult(NotFound());
-            }
             var _issue = _context.Issues.SingleOrDefault(n => n.Id == issue);
             if (_issue == null)
             {
                 return new JsonResult(NotFound());
             }
-            _issue.Replicated = true;
-            _issue.ReplicatedDate = dateTime;
+            _issue.Replicated.Add(user, dateTime);
             _context.SaveChanges();
             return new JsonResult(Ok());
         }
 
-        [HttpPost("SolveIssue/{issue, dateTime, report}")]
-        public JsonResult SolveIssue(int issue, DateTime dateTime, string report, int userId, string deviceId, string userSecret)
+        [HttpPost("SolveIssue/{issue, dateTime, report, user}")]
+        public JsonResult SolveIssue(int issue, string dateTime, string report, int user)
         {
-            if (!VerifyUserToken(userId, deviceId, dateTime, userSecret))
-            {
-                return new JsonResult(NotFound());
-            }
             var _issue = _context.Issues.SingleOrDefault(n => n.Id == issue);
             if (_issue == null)
             {
                 return new JsonResult(NotFound());
             }
-            _issue.Solved = true;
-            _issue.SolvedDate = dateTime;
+            _issue.Solved = new(user, dateTime);
             _issue.SolvedReport = report;
             _context.SaveChanges();
             return new JsonResult(Ok());
         }
 
-        [HttpPost("EndClinicVisit/{clinicVisit, dateTime, report}")]
-        public JsonResult EndClinicVisit(int clinicVisit, DateTime dateTime, string report, int userId, string deviceId, string userSecret)
+        [HttpPost("EndClinicVisit/{clinicVisit, dateTime, report, user}")]
+        public JsonResult EndClinicVisit(int clinicVisit, string dateTime, string report, int user)
         {
-            if (!VerifyUserToken(userId, deviceId, dateTime, userSecret))
-            {
-                return new JsonResult(NotFound());
-            }
             var _clinicVisit = _context.ClinicVisits.SingleOrDefault(n => n.Id == clinicVisit);
             if (_clinicVisit == null)
             {
@@ -218,17 +204,14 @@ namespace RobotManagerAPI.Controllers
             }
             _clinicVisit.BackDate = dateTime;
             _clinicVisit.BackReport = report;
+            _clinicVisit.Collector = user;
             _context.SaveChanges();
             return new JsonResult(Ok());
         }
 
         [HttpPost("AddIssueToClinicVisit/{clinicVisit, issue}")]
-        public JsonResult AddIssueToClinicVisit(int clinicVisit, int issue, int userId, string deviceId, DateTime dateTime, string userSecret)
+        public JsonResult AddIssueToClinicVisit(int clinicVisit, int issue)
         {
-            if (!VerifyUserToken(userId, deviceId, dateTime, userSecret))
-            {
-                return new JsonResult(NotFound());
-            }
             var clinicVisitInDb = _context.ClinicVisits.SingleOrDefault(n => n.Id == clinicVisit);
             if (clinicVisitInDb == null)
             {
@@ -476,28 +459,28 @@ namespace RobotManagerAPI.Controllers
         // User management
 
         [HttpPost("Create/user")]
-        public JsonResult CreateUser(string username, string password)
+        public JsonResult CreateUser([FromBody] UserCreateRequest request)
         {
             User user = new();
             try
             {
-            user.Id = _context.Users.Count() + 1;
+                user.Id = _context.Users.Count() + 1;
             }
             catch
             {
                 user.Id = 1;
             }
-            user.Username = username;
-            user.Password = password;
+            user.Username = request.Username;
+            user.Password = request.Password;
 
             var deviceId = Guid.NewGuid().ToString();
             var token = Guid.NewGuid().ToString();
             user.Tokens.Add(deviceId, token);
 
             _context.Users.Add(user);
-
             _context.SaveChanges();
-            return new JsonResult(Ok(new { user.Id, deviceId, token }));
+
+            return new JsonResult(new { user.Id, deviceId, token });
         }
 
         [HttpPost("Edit/user/{id}")]
@@ -523,7 +506,7 @@ namespace RobotManagerAPI.Controllers
             }
 
             _context.SaveChanges();
-            return new JsonResult(Ok(user));
+            return new JsonResult(Ok());
         }
 
         [HttpGet("GetSingle/user/{id}")]
@@ -534,7 +517,7 @@ namespace RobotManagerAPI.Controllers
             {
                 return new JsonResult(NotFound());
             }
-            return new JsonResult(Ok(user));
+            return new JsonResult(new {user.Username});
         }
 
         [HttpDelete("Delete/user/{user}")]
@@ -550,12 +533,12 @@ namespace RobotManagerAPI.Controllers
             return new JsonResult(Ok());
         }
 
-        [HttpGet("ValidUsername/{usename}")]
+        [HttpGet("ValidUsername/{username}")]
         public JsonResult ValidUsername(string username)
         {
             if (!VerifyUserName(username))
             {
-                return new JsonResult(NotFound());
+                return new JsonResult(NoContent());
             }
             return new JsonResult(Ok());
 
@@ -614,7 +597,7 @@ namespace RobotManagerAPI.Controllers
         {
             using var sha256 = SHA256.Create();
 
-            string clearText = challenge == null ? password : password + challenge;
+            string clearText = challenge == null ? password : Hash(password) + challenge;
             var bytes = Encoding.UTF8.GetBytes(clearText);
             var hash = sha256.ComputeHash(bytes);
             return Convert.ToBase64String(hash);
@@ -641,16 +624,21 @@ namespace RobotManagerAPI.Controllers
             _context.SaveChanges();
         }
 
-        private bool VerifyUserToken(int userId, string deviceId, DateTime dateTime, string userSecret)
+        private bool VerifyUserToken(int userId, string deviceId, string dateTime, string userSecret)
         {
             var user = _context.Users.SingleOrDefault(n => n.Id == userId);
+            if (!LastMinute(dateTime))
+            {
+                return false;
+            }
+
             if (user == null || user.Tokens == null || !user.Tokens.ContainsKey(deviceId))
             {
                 return false;
             }
 
             string token = user.Tokens[deviceId];
-            string secret = Hash(token, dateTime.ToString());
+            string secret = Hash(token, dateTime);
             return secret == userSecret;
         }
 
@@ -659,5 +647,96 @@ namespace RobotManagerAPI.Controllers
             var user = _context.Users.SingleOrDefault(u => u.Username == username);
             return user != null;
         }
+
+        private static bool LastMinute(string date)
+        {
+            DateTime now = DateTime.Now;
+            DateTime parsedDate;
+            if (!DateTime.TryParse(date, null, System.Globalization.DateTimeStyles.RoundtripKind, out parsedDate))
+            {
+                return false;
+            }
+            double minutes = (now - parsedDate).TotalMinutes;
+            return minutes < 2 && minutes >= 0;
+        }
+
+        /*
+        private Nao Reasamble(NaoCreateEditRequest request)
+        {
+            if (request == null)
+            {
+                return null;
+            }
+            Nao nao = new Nao();
+            nao.Id = request.Id;
+            nao.Name = request.Name;
+            nao.HeadID = request.HeadID;
+            nao.BodyID = request.BodyID;
+            nao.WarrantyExtension = request.WarrantyExtension;
+            nao.Purchased = request.Purchased;
+            nao.Status = request.Status;
+            return nao;
+        }*/
+        public class UserCreateRequest
+        {
+            public string Username { get; set; }
+            public string Password { get; set; }
+        }
+        public class NaoCreateEditRequest
+        {
+            public Nao Nao { get; set; }
+            // Nao Data
+            //public int Id { get; set; }
+            //public string Name { get; set; }
+            //public string HeadID { get; set; }
+            //public string BodyID { get; set; }
+            //public int WarrantyExtension { get; set; }
+            //public string Purchased { get; set; }
+            //public List<int> Issues { get; set; }
+            //public List<int> Notes { get; set; }
+            //public List<int> ClinicVisits { get; set; }
+            
+            //public int Status { get; set; }
+
+            // User Data for Authentication
+            public int UserId { get; set; }
+            public string DeviceId { get; set; }
+            public string DateTime { get; set; }
+            public string UserSecret { get; set; }
+        }
+        //Issue issue, int userId, string deviceId, string dateTime, string userSecret
+        public class IssueCreateEditRequest
+        {
+            public Issue Issue { get; set; }
+            public int UserId { get; set; }
+            public string DeviceId { get; set; }
+            public string DateTime { get; set; }
+            public string UserSecret { get; set; }
+        }
+        public class NoteCreateEditRequest
+        {
+            public Note Note { get; set; }
+            public int UserId { get; set; }
+            public string DeviceId { get; set; }
+            public string DateTime { get; set; }
+            public string UserSecret { get; set; }
+        }
+        public class ClinicVisitCreateEditRequest
+        {
+            public ClinicVisit ClinicVisit { get; set; }
+            public int UserId { get; set; }
+            public string DeviceId { get; set; }
+            public string DateTime { get; set; }
+            public string UserSecret { get; set; }
+        }
+        public class GameCreateEditRequest
+        {
+            public Game Game { get; set; }
+            public int UserId { get; set; }
+            public string DeviceId { get; set; }
+            public string DateTime { get; set; }
+            public string UserSecret { get; set; }
+        }
     }
 }
+
