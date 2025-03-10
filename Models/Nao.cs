@@ -10,16 +10,16 @@ namespace RobotManagerAPI.Models
         private string headID = string.Empty;
         private string bodyID = string.Empty;
         private int warrantyExtension;
-        private string? purchased;
-        private string status;
+        private DateTime? purchased;
+        private Status status;
 
         public int Id { get => id; set => id = value; }
         public string Name { get => name; set => name = value; }
         public string HeadID { get => headID; set => headID = value; }
         public string BodyID { get => bodyID; set => bodyID = value; }
         public int WarrantyExtension { get => warrantyExtension; set => warrantyExtension = value; }
-        public string? Purchased { get => purchased; set => purchased = value; }
-        public string Status { get => status; set => status = value; }
+        public DateTime? Purchased { get => purchased; set => purchased = value; }
+        public Status Status { get => status; set => status = value; }
     }
 
     public class Issue
@@ -95,5 +95,11 @@ namespace RobotManagerAPI.Models
         public string? BackReport { get => backReport; set => backReport = value; }
         public int Author { get => author; set => author = value; }
         public int Collector { get => collector; set => collector = value; }
+    }
+    public enum Status
+    {
+        Free,
+        Game,
+        Clinic
     }
 }
