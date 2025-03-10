@@ -154,8 +154,8 @@ namespace RobotManagerAPI.Controllers
             return new JsonResult(request.Game);
         }
 
-        [HttpPost("SetStatus/{nao, status}")]
-        public JsonResult SetStatus(int nao, string status)
+        [HttpPost("SetStatus/{nao}/{status}")]
+        public JsonResult SetStatus(int nao, Status status)
         {
             var _nao = _context.Naos.SingleOrDefault(n => n.Id == nao);
             if (_nao == null)
@@ -232,7 +232,7 @@ namespace RobotManagerAPI.Controllers
                 return new JsonResult(NotFound());
             }
 
-            return new JsonResult(Ok(nao));
+            return new JsonResult(nao);
         }
 
         [HttpGet("GetSingle/issue/{id}")]
@@ -256,7 +256,7 @@ namespace RobotManagerAPI.Controllers
                 return new JsonResult(NotFound());
             }
 
-            return new JsonResult(Ok(note));
+            return new JsonResult(note);
         }
 
         [HttpGet("GetSingle/clinicVisit/{id}")]
@@ -280,7 +280,7 @@ namespace RobotManagerAPI.Controllers
                 return new JsonResult(NotFound());
             }
 
-            return new JsonResult(Ok(game));
+            return new JsonResult(game);
         }
 
         [HttpGet("GetGroup/issue/{nao}")]
@@ -292,7 +292,7 @@ namespace RobotManagerAPI.Controllers
                 return new JsonResult(NotFound());
             }
 
-            return new JsonResult(Ok(issues));
+            return new JsonResult(issues);
         }
 
         [HttpGet("GetGroup/note/{nao}")]
@@ -304,7 +304,7 @@ namespace RobotManagerAPI.Controllers
                 return new JsonResult(NotFound());
             }
 
-            return new JsonResult(Ok(notes));
+            return new JsonResult(notes);
         }
 
         [HttpGet("GetGroup/clinicVisit/{nao}")]
@@ -316,7 +316,7 @@ namespace RobotManagerAPI.Controllers
                 return new JsonResult(NotFound());
             }
 
-            return new JsonResult(Ok(clinicVisits));
+            return new JsonResult(clinicVisits);
         }
 
         // Get All
@@ -329,7 +329,7 @@ namespace RobotManagerAPI.Controllers
                 return new JsonResult(NotFound());
             }
 
-            return new JsonResult(Ok(naos));
+            return new JsonResult(naos);
         }
 
         [HttpGet("GetAll/issues")]
@@ -341,7 +341,7 @@ namespace RobotManagerAPI.Controllers
                 return new JsonResult(NotFound());
             }
 
-            return new JsonResult(Ok(issues));
+            return new JsonResult(issues);
         }
 
         [HttpGet("GetAll/notes")]
@@ -353,7 +353,7 @@ namespace RobotManagerAPI.Controllers
                 return new JsonResult(NotFound());
             }
 
-            return new JsonResult(Ok(notes));
+            return new JsonResult(notes);
         }
 
         [HttpGet("GetAll/clinicVisits")]
@@ -365,9 +365,9 @@ namespace RobotManagerAPI.Controllers
                 return new JsonResult(NotFound());
             }
 
-            return new JsonResult(Ok(clinicVisits));
+            return new JsonResult(clinicVisits);
         }
-
+        
         [HttpGet("GetAll/games")]
         public JsonResult GetAllGames()
         {
@@ -377,7 +377,7 @@ namespace RobotManagerAPI.Controllers
                 return new JsonResult(NotFound());
             }
 
-            return new JsonResult(Ok(games));
+            return new JsonResult(games);
         }
 
         // Delete
@@ -736,6 +736,11 @@ namespace RobotManagerAPI.Controllers
             public string DeviceId { get; set; }
             public string DateTime { get; set; }
             public string UserSecret { get; set; }
+        }
+        public class SetStatusRequest
+        {
+            public int Nao { get; set; }
+            public Status Status { get; set; }
         }
     }
 }
