@@ -78,7 +78,6 @@ namespace RobotManagerAPI.Models
         private string? date;
         private string? backDate;
         private List<int>? issues;
-        private bool isBack;
         private string? notes;
         private string? backReport;
         private int author;
@@ -90,7 +89,6 @@ namespace RobotManagerAPI.Models
         public string? Date { get => date; set => date = value; }
         public string? BackDate { get => backDate; set => backDate = value; }
         public List<int>? Issues { get => issues; set => issues = value; }
-        public bool IsBack { get => isBack; set => isBack = value; }
         public string? Notes { get => notes; set => notes = value; }
         public string? BackReport { get => backReport; set => backReport = value; }
         public int Author { get => author; set => author = value; }

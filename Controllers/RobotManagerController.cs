@@ -167,7 +167,7 @@ namespace RobotManagerAPI.Controllers
             return new JsonResult(Ok());
         }
 
-        [HttpPost("ReplicateIssue/{id, dateTime, user}")]
+        [HttpPost("ReplicateIssue/{id}/{dateTime}/{user}")]
         public JsonResult ReplicateIssue(int issue, string dateTime, int user)
         {
             var _issue = _context.Issues.SingleOrDefault(n => n.Id == issue);
@@ -180,36 +180,36 @@ namespace RobotManagerAPI.Controllers
             return new JsonResult(Ok());
         }
 
-        [HttpPost("SolveIssue/{issue, dateTime, report, user}")]
-        public JsonResult SolveIssue(int issue, string dateTime, string report, int user)
+        [HttpPost("SolveIssue")]
+        public JsonResult SolveIssue([FromBody] SolveIssueRequest request)
         {
-            var _issue = _context.Issues.SingleOrDefault(n => n.Id == issue);
+            var _issue = _context.Issues.SingleOrDefault(n => n.Id == request.Id);
             if (_issue == null)
             {
                 return new JsonResult(NotFound());
             }
-            _issue.Solved = new(user, dateTime);
-            _issue.SolvedReport = report;
+            _issue.Solved = new(request.UserId, request.DateTime);
+            _issue.SolvedReport = request.Report;
             _context.SaveChanges();
             return new JsonResult(Ok());
         }
 
-        [HttpPost("EndClinicVisit/{clinicVisit, dateTime, report, user}")]
-        public JsonResult EndClinicVisit(int clinicVisit, string dateTime, string report, int user)
+        [HttpPost("EndClinicVisit")]
+        public JsonResult EndClinicVisit([FromBody] EndClinicVisitRequest request)
         {
-            var _clinicVisit = _context.ClinicVisits.SingleOrDefault(n => n.Id == clinicVisit);
+            var _clinicVisit = _context.ClinicVisits.SingleOrDefault(n => n.Id == request.Id);
             if (_clinicVisit == null)
             {
                 return new JsonResult(NotFound());
             }
-            _clinicVisit.BackDate = dateTime;
-            _clinicVisit.BackReport = report;
-            _clinicVisit.Collector = user;
+            _clinicVisit.BackDate = request.BackDate;
+            _clinicVisit.BackReport = request.BackReport;
+            _clinicVisit.Collector = request.UserId;
             _context.SaveChanges();
             return new JsonResult(Ok());
         }
 
-        [HttpPost("AddIssueToClinicVisit/{clinicVisit, issue}")]
+        [HttpPost("AddIssueToClinicVisit/{clinicVisit}/{issue}")]
         public JsonResult AddIssueToClinicVisit(int clinicVisit, int issue)
         {
             var clinicVisitInDb = _context.ClinicVisits.SingleOrDefault(n => n.Id == clinicVisit);
@@ -650,9 +650,9 @@ namespace RobotManagerAPI.Controllers
 
         private static bool LastMinute(string date)
         {
-            DateTime now = DateTime.Now;
+            DateTime now = DateTime.UtcNow;
             DateTime parsedDate;
-            if (!DateTime.TryParse(date, null, System.Globalization.DateTimeStyles.RoundtripKind, out parsedDate))
+            if (!DateTime.TryParseExact(date, "dd.MM.yyyy HH:mm:ss", null, System.Globalization.DateTimeStyles.RoundtripKind, out parsedDate))
             {
                 return false;
             }
@@ -741,6 +741,22 @@ namespace RobotManagerAPI.Controllers
         {
             public int Nao { get; set; }
             public Status Status { get; set; }
+        }
+
+        public class SolveIssueRequest
+        {
+            public int Id { get; set; }
+            public int UserId { get; set; }
+            public string? DateTime { get; set; }
+            public string? Report { get; set; }
+        }
+
+        public class EndClinicVisitRequest
+        {
+            public int Id { get; set; }
+            public int UserId { get; set; }
+            public string? BackDate { get; set; }
+            public string? BackReport { get; set; }
         }
     }
 }
