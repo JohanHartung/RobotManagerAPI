@@ -2,7 +2,7 @@ name: build robot api docker image
 
 on:
   push:
-    branches: ['main']
+    branches: ['master']
     
 # This creates an environment variable called `IMAGE_NAME ` with the value `ghtoken_product_demo`.
 env:
